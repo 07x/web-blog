@@ -12,7 +12,6 @@ from api.auther.models import BaseModel
 # CUstomer User 
 User = get_user_model()
 
-
 class BlogPost(BaseModel):
     user = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     title = models.CharField(_('blog title'),max_length=100,null=True,blank=True)
@@ -23,8 +22,8 @@ class BlogPost(BaseModel):
     modifyed_by = models.ForeignKey(User,on_delete=models.CASCADE,default=1,related_name='modifyed_by')
 
     def __str__(self):
-        return self.title 
-    
+        return self.title
+
     def get_slug(self):
         slug = slugify(self.title.replace("ı", "i"))
         unique = slug
@@ -35,7 +34,11 @@ class BlogPost(BaseModel):
             number += 1
         return unique
 
-
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.get_slug()
+        super().save(*args, **kwargs)
+        
 # COMMENT
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

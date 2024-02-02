@@ -22,6 +22,7 @@ class CustomeUser(AbstractUser):
         AUTHOR = "AUTHOR", "AUTHOR"
         EDITER = "EDITER", "EDITER"
         ADMIN = "ADMIN", "ADMIN"
+        VIEWER = "VIEWER", "VIEWER"
         
     username = None
     type = models.CharField(max_length=20, choices=Types.choices, default=Types.ADMIN)
